@@ -16,6 +16,6 @@ router.get('/', function(req, res) {
 
 app.use(router);
 
-app.listen(8080, function() {  
+app.listen(80, function() {  
   console.log("Main server running");
 });
