@@ -8,20 +8,12 @@
     
     - name: Install git
       apt: pkg=git state=present
-
-    - name: Install NodeJS and npm
-      apt: name={{ item }} state=present
-      with_items:
-        - nodejs
-        - nodejs-dev
-        - nodejs-legacy
-        - npm
+      
+    - name: Install MySQL
+      apt: pkg=mysql-server state=present
     
     - name: Clone repo
       git: repo=https://github.com/JPPorcel/CCSA.git dest=/opt/app version=HEAD
       
-    - name: Install dependencies with npm
-      shell: "cd /opt/app && sudo npm install"
-      
-    - name: Run server as a ubuntu service
-      shell: 'cp /opt/app/provision/web_service_cc.service /etc/systemd/system/web_service_cc.service && systemctl daemon-reload && systemctl enable web_service_cc && systemctl start web_service_cc'
+    - name: Load database
+      shell: "cd /opt/app/mysql && mysql < modelo.sql && mysql Music < marchas.sql"
