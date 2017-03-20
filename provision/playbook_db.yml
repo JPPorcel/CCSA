@@ -17,16 +17,11 @@
         - nodejs-legacy
         - npm
     
-    - name: Install pm2 for manage our nodejs application
-      npm:
-        name: pm2
-        global: yes
-    
     - name: Clone repo
       git: repo=https://github.com/JPPorcel/CCSA.git dest=/opt/app version=HEAD
       
     - name: Install dependencies with npm
       shell: "cd /opt/app && sudo npm install"
       
-    - name: Run server with pm2
-      shell: 'cd /opt/app && pm2 start server.js'
+    - name: Run server as a ubuntu service
+      shell: 'cp /opt/app/provision/web_service_cc.service /etc/systemd/system/web_service_cc.service && systemctl daemon-reload && systemctl enable web_service_cc && systemctl start web_service_cc'
