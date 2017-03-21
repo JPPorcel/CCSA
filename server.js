@@ -6,7 +6,7 @@ var express = require("express"),
 	
 	
 // Connection to DB
-mongoose.connect('mongodb://localhost/restaurants', function(err, res) {
+mongoose.connect('mongodb://192.168.10.93:27017/restaurants', function(err, res) {
   if(err) throw err;
   console.log('Connected to Database');
 });
