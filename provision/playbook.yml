@@ -29,4 +29,7 @@
       shell: "cd /opt/app && sudo npm install"
       
     - name: Run server with pm2
-      shell: 'cd /opt/app && pm2 start server.js'
+      shell: 'cd /opt/app && pm2 start server.js && pm2 startup'
+      
+    - name: Install nginx
+      apt: pkg=nginx state=present

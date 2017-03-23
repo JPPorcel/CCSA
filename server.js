@@ -5,11 +5,17 @@ var express = require("express"),
     mongoose = require('mongoose');
 	
 	
-// Connection to DB
+// // Connection to DB
 mongoose.connect('mongodb://192.168.10.93:27017/restaurants', function(err, res) {
   if(err) throw err;
   console.log('Connected to Database');
 });
+	
+// Connection to DB
+// mongoose.connect('mongodb://localhost/restaurants', function(err, res) {
+//   if(err) throw err;
+//   console.log('Connected to Database');
+// });
 	
 app.set('view engine', 'pug')
 
@@ -26,7 +32,7 @@ router.get('/', function(req, res)
 {  
 	res.render(
         'index',
-        { title: 'Hey Hey Hey!', message: 'Yo Yo'})
+        { title: 'Restaurantes', message: 'h1'})
 });
 
 router.route('/restaurants')  
@@ -36,6 +42,6 @@ router.route('/restaurants')
 app.use(router);
 
 // Start server
-app.listen(8080, function() {
-  console.log("Node server running on http://localhost:80");
+app.listen(80, function() {
+  console.log("Node server running on http://localhost:8080");
 });
