@@ -1,0 +1,13 @@
+extends layout
+
+block content
+	ul
+		each r in restaurantes
+			li
+				a(href="/restaurante?id=" + r.restaurant_id)= r.name + " "
+				- var ciudad = r.address.city
+				if ciudad != undefined 
+					b= "(cocina: " + r.cuisine + ", ciudad: " + ciudad + ")"
+				else
+					b= "(cocina: " + r.cuisine + ", ciudad: New York)"
+				

@@ -19,7 +19,7 @@ mongoose.connect('mongodb://192.168.10.93:27017/restaurants', function(err, res)
 	
 app.set('view engine', 'pug')
 
-app.use(bodyParser.urlencoded({ extended: false }));  
+app.use(bodyParser.urlencoded({ extended: true }));  
 app.use(bodyParser.json());  
 app.use(methodOverride());
 
@@ -35,13 +35,25 @@ router.get('/', function(req, res)
         { title: 'Restaurantes', message: 'h1'})
 });
 
-router.route('/restaurants')  
-  .get(controller.findAllRestaurants)
+router.route('/add')
+	.get(function(req, res) 
+		{  
+			res.render('add');
+		})
+	.post(controller.addRestaurant)
 
+router.route('/listar')  
+	.get(controller.findAllRestaurants)
+
+router.route('/buscar')
+	.get(controller.getRestaurants)
+	
+router.route('/restaurante')
+	.get(controller.getRestaurant)
 
 app.use(router);
 
 // Start server
-app.listen(80, function() {
-  console.log("Node server running on http://localhost:8080");
+app.listen(8080, function() {
+	console.log("Node server running on http://localhost:8080");
 });
