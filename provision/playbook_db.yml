@@ -17,3 +17,6 @@
 
     - name: Load database
       shell: "cd /opt/app/mongo && mongoimport --db restaurants --collection restaurants --drop --file restaurantes.json"
+      
+    - name: Open ports for mongo
+      shell: 'iptables -I INPUT -p udp -m udp --dport 27017 -j ACCEPT && iptables -I INPUT -p tcp -m tcp --dport 27017 -j ACCEPT'
