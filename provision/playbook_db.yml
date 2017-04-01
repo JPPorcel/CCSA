@@ -3,17 +3,20 @@
   sudo: yes
   
   tasks:
-    - name: Update Apt cache
-      yum: update_cache=yes
-    
     - name: Install git
-      yum: pkg=git state=present
+      yum: name=git state=present
     
     - name: Clone repo
       git: repo=https://github.com/JPPorcel/CCSA.git dest=/opt/app version=HEAD
       
+    - name: Install mongo repository
+      shell: 'cd /opt/app/provision/ && cp mongodb-org.repo /etc/yum.repos.d/ && yum repolist'
+      
     - name: Install mongo
-      shell: 'cd /opt/app/provision/ && cp mongodb-org.repo /etc/yum.repos.d/ && yum repolist && sudo yum install mongodb-org && sudo systemctl start mongod'
+      yum: name=mongodb-org state=present
+      
+    - name: Start mongod
+      shell: 'sudo systemctl start mongod'
 
     - name: Load database
       shell: "cd /opt/app/mongo && mongoimport --db restaurants --collection restaurants --drop --file restaurantes.json"
