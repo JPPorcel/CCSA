@@ -33,3 +33,6 @@
       
     - name: Install nginx
       apt: pkg=nginx state=present
+      
+    - name: Configure nginx
+      shell: 'cd /opt/app/provision && cp sites-available_default /etc/nginx/sites-available/default && sudo service nginx restart'
