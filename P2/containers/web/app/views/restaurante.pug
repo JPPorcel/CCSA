@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	- var r= restaurantes[0]
+	h1= r.name
+	h2= r.cuisine
+	h3= r.borough
+	
+	p(style="margin-top: 60px")= r

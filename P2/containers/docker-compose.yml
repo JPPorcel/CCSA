@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  jpblo_nginx:
+    image: nginx
+    container_name: jpblo_nginx
+
+  jpblo_app:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: jpblo_app
+    command: pm2 /opt/app/server.js
+    ports:
+      - "8080:8080"
+    links:
+      - jpblo_mongo
+    environment:
+      PORT: 8080
+      DB_IP: 1
+      DB_PORT: 1 
+
+  jpblo_mongo:
+    build:
+      context: ./mongo
+      dockerfile: Dockerfile
+    container_name: jpblo_mongo
+    ports:
+      - "27017:27017"

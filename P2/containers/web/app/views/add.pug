@@ -1,0 +1,28 @@
+extends layout
+
+block content
+	h2(style="margin-bottom: 30px") Nuevo restaurante
+
+    
+	form(class="form-horizontal" action="/add"  method="POST")
+		div(class="form-group")
+			label(for="name") Nombre:
+			input(type="text" class="form-control" name="name" id="name" placeholder="Casa Julio")
+		
+		div(class="form-group")
+			label(for="cuisine") Cocina:
+			input(type="text" class="form-control" name="cuisine" id="cuisine" placeholder="Granaina")
+
+		div(class="form-group")
+			label(for="borough") Barrio:
+			input(type="text" class="form-control" name="borough" id="borough" placeholder="Centro")
+
+		div(class="form-group")
+			label(for="city") Ciudad:
+			input(type="text" class="form-control" name="city" id="city" placeholder="Granada")
+
+		// div(class="form-group")
+			// label(for="imagen") Imagen:
+			// input(type="file" name="imagen" id="imagen")
+		
+		button(type="submit" id="btn-insert" class="btn btn-success" value="Submit" style="margin-top: 20px") Añadir
