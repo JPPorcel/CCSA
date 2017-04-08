@@ -1,4 +1,4 @@
-FROM keymetrics/pm2-docker-alpine
+FROM node
 
 # Create app directory
 RUN mkdir -p /opt/app
@@ -12,4 +12,4 @@ RUN npm install
 COPY . /opt/app
 
 EXPOSE 8080
-CMD pm2 server.js
+CMD node server.js
