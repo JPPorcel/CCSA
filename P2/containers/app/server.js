@@ -6,7 +6,7 @@ var express = require("express"),
 	
 	
 // // Connection to DB
-mongoose.connect('mongodb://127.0.0.1:14081/restaurants', function(err, res) {
+mongoose.connect('mongodb://mongodb:27017/restaurants', function(err, res) {
   if(err) throw err;
   console.log('Connected to Database');
 });
@@ -26,7 +26,7 @@ router.get('/', function(req, res)
 {  
 	res.render(
         'index',
-        { title: 'Restaurantes', message: 'h1'})
+        { title: 'Restaurantes', message: 'Aplicación web para Cloud Computing: Servicios y Aplicaciones'})
 });
 
 router.route('/add')
