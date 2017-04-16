@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  jpblo_nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: jpblo_nginx
+    ports:
+      - "14080:80"
+      - "14083:443"
+    links:
+      - "jpblo_app:app"
+
+  jpblo_app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: jpblo_app
+    ports:
+      - "14082:8080"
+    links:
+      - "jpblo_mongo:mongodb"
+
+  jpblo_mongo:
+    image: mongo
+    container_name: jpblo_mongo
+    ports:
+      - "14081:27017"
+      
+  mongo-seed:
+    build: ./mongo
+    links:
+      - "jpblo_mongo:mongodb"
