@@ -1,0 +1,925 @@
+\input{estilo.tex}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=JavaScript,             % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  basicstyle=\tiny,
+}
+
+\usepackage[table,xcdraw]{xcolor}
+
+
+\newpage         
+
+
+%----------------------------------------------------------------------------------------
+%	INDICE
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+	
+\setcounter{page}{0}
+
+\input{portada}
+
+\thispagestyle{empty}
+
+\newpage %inserta un salto de página
+
+\tableofcontents % para generar el índice de contenidos
+
+%\listoffigures
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENTO
+%----------------------------------------------------------------------------------------
+
+\section{Introducción}
+
+El objetivo de esta práctica es familiarizarse con el uso de un sistema de gestión de bases de datos en entornos Big Data. Para ello, se hará uso de la aplicación más conocida en este ámbito como es MongoDB. \\
+
+Para constatar el manejo de la herramienta anterior, el alumno deberá realizar las tareas que se describen a continuación. \\
+
+\section{Objetivo \#1}
+
+Junto con este documento se adjunta el fichero \textit{tarea1.js} con el código JavaScript de las consultas. \\
+
+Crear la colección pedidos en cada BD asociada a vuestro usuario, sobre la que se realizarán diversas operaciones CRUD. Para crear la colección abre y ejecuta el script insertar\_pedidos.js (accesible en /tmp/mongo). Las tareas a realizar son las siguientes: \\
+
+\begin{enumerate}
+	\item Visualiza la colección pedidos y familiarízate con ella. Observa los distintos tipos de datos y sus estructuras dispares.
+		La estructura de la colección pedidos es la siguiente:
+		\begin{lstlisting}
+			id_cliente integer
+			Nombre string
+			Direccion string
+			Localidad string
+  			Fnacimiento ISODate
+			Facturacion integer
+			Pedidos list Pedidos
+					id_pedido integer
+					Productos list Productos
+						id_producto integer
+						Nombre string
+						Fabricante string
+						Precio_unidad integer
+						Cantidad integer
+		\end{lstlisting}
+	\item Visualiza sólo el primer documento de la colección. Utiliza los métodos .limit()y.findOne().
+		\begin{lstlisting}
+			db.pedidos.findOne()
+			db.pedidos.find().limit(1).pretty()
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"_id" : ObjectId("58f6466f8acd22a8a89f4c6a"),
+				"id_cliente" : 1111,
+				"Nombre" : "Pedro Ramirez",
+				"Direccion" : "Calle Los Romeros 14",
+				"Localidad" : "Sevilla",
+				"Fnacimiento" : ISODate("1963-04-02T23:00:00Z"),
+				"Facturacion" : 5000,
+				"Pedidos" : [
+					{
+						"id_pedido" : 1,
+						"Productos" : [
+							{
+								"id_producto" : 1,
+								"Nombre" : "Pentium IV",
+								"Fabricante" : "Intel",
+								"Precio_unidad" : 390,
+								"Cantidad" : 1
+							},
+							{
+								"id_producto" : 2,
+								"Nombre" : "Tablet 8 pulgadas",
+								"Precio_unidad" : 95,
+								"Cantidad" : 1
+							}
+						]
+					},
+					{
+						"id_pedido" : 2,
+						"Productos" : [
+							{
+								"id_producto" : 77,
+								"Nombre" : "Impresora Laser",
+								"Fabricante" : "Canon",
+								"Precio_unidad" : 115,
+								"Cantidad" : 3
+							}
+						]
+					}
+				]
+			}
+		\end{lstlisting}
+		
+	\item Visualiza el cliente con id\_cliente = 2222.
+		\begin{lstlisting}
+			db.pedidos.find({id_cliente: 2222}).pretty()
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"_id" : ObjectId("58f6466f8acd22a8a89f4c6b"),
+				"id_cliente" : 2222,
+				"Nombre" : "Juan Gomez",
+				"Direccion" : "Perpetuo Socorro 9",
+				"Localidad" : "Salamanca",
+				"Fnacimiento" : ISODate("1960-08-16T22:00:00Z"),
+				"Facturacion" : 6500,
+				"Pedidos" : [
+					{
+						"id_pedido" : 1,
+						"Productos" : [
+							{
+								"id_producto" : 1,
+								"Nombre" : "Pentium IV",
+								"Fabricante" : "Intel",
+								"Precio_unidad" : 100,
+								"Cantidad" : 1
+							},
+							{
+								"id_producto" : 42,
+								"Nombre" : "Portatil ASM Mod. 254",
+								"Fabricante" : "Intel",
+								"Precio_unidad" : 455,
+								"Cantidad" : 2
+							},
+							{
+								"id_producto" : 27,
+								"Nombre" : "Cable USB",
+								"Precio_unidad" : 11,
+								"Cantidad" : 12
+							}
+						]
+					},
+					{
+						"id_pedido" : 2,
+						"Productos" : [
+							{
+								"id_producto" : 77,
+								"Nombre" : "Impresora Laser",
+								"Fabricante" : "Canon",
+								"Precio_unidad" : 128,
+								"Cantidad" : 3
+							},
+							{
+								"id_producto" : 42,
+								"Nombre" : "Portatil ASM Mod. 254",
+								"Fabricante" : "Intel",
+								"Precio_unidad" : 451,
+								"Cantidad" : 5
+							},
+							{
+								"id_producto" : 21,
+								"Nombre" : "Disco Duro 500GB",
+								"Precio_unidad" : 99,
+								"Cantidad" : 10
+							}
+						]
+					},
+					{
+						"id_pedido" : 3,
+						"Productos" : [
+							{
+								"id_producto" : 1,
+								"Nombre" : "Pentium IV",
+								"Fabricante" : "Intel",
+								"Precio_unidad" : 94,
+								"Cantidad" : 5
+							},
+							{
+								"id_producto" : 95,
+								"Nombre" : "SAI 5H Mod. 258",
+								"Precio_unidad" : 213,
+								"Cantidad" : 2
+							},
+							{
+								"id_producto" : 21,
+								"Precio_unidad" : 66,
+								"Nombre" : "Disco Duro 500GB",
+								"Cantidad" : 10
+							}
+						]
+					}
+				]
+			}
+		\end{lstlisting}
+
+	\item Visualiza los clientes que hayan pedido algún producto de más de 94 euros.
+		\begin{lstlisting}
+			db.pedidos.find({"Pedidos.Productos.Precio_unidad": {$gte: 94}}, {_id:0, id_cliente: 1, Nombre: 1})
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{ "id_cliente" : 1111, "Nombre" : "Pedro Ramirez" }
+			{ "id_cliente" : 2222, "Nombre" : "Juan Gomez" }
+			{ "id_cliente" : 5555, "Nombre" : "Cristina Miralles" }
+		\end{lstlisting}
+
+	\item  Visualiza los clientes de Jaén o Salamanca (excluye los datos de los pedidos). Utiliza los operador \$or e \$in.
+		\begin{lstlisting}
+			db.pedidos.find({ $or: [{Localidad: "Salamanca"}, {Localidad: "Jaen"}] }, {Pedidos: 0}).pretty()
+			db.pedidos.find({ Localidad:  { $in: ["Salamanca", "Jaen"] } }, {Pedidos: 0}).pretty()
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"_id" : ObjectId("58f6466f8acd22a8a89f4c6b"),
+				"id_cliente" : 2222,
+				"Nombre" : "Juan Gomez",
+				"Direccion" : "Perpetuo Socorro 9",
+				"Localidad" : "Salamanca",
+				"Fnacimiento" : ISODate("1960-08-16T22:00:00Z"),
+				"Facturacion" : 6500
+			}
+			{
+				"_id" : ObjectId("58f6466f8acd22a8a89f4c6c"),
+				"id_cliente" : 3333,
+				"Nombre" : "Carlos Montes",
+				"Direccion" : "Salsipuedes 13",
+				"Localidad" : "Jaen",
+				"Fnacimiento" : ISODate("1967-11-24T23:00:00Z"),
+				"Facturacion" : 8000
+			}
+			{
+				"_id" : ObjectId("58f6466f8acd22a8a89f4c6d"),
+				"id_cliente" : 4444,
+				"Nombre" : "Carmelo Coton",
+				"Direccion" : "La Luna 103",
+				"Localidad" : "Jaen",
+				"Fnacimiento" : ISODate("1969-01-05T23:00:00Z"),
+				"Facturacion" : 12300
+			}
+		\end{lstlisting}
+
+	\item Visualiza los clientes que no tienen campo pedidos.
+		\begin{lstlisting}
+			db.pedidos.find({Pedidos: {$exists: false}}, {_id:0, id_cliente: 1, Nombre: 1})
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{ "id_cliente" : 3333, "Nombre" : "Carlos Montes" }
+			{ "id_cliente" : 4444, "Nombre" : "Carmelo Coton" }
+			{ "id_cliente" : 6666, "Nombre" : "Chema Pamundi" }
+		\end{lstlisting}
+
+	\item Visualiza los clientes que hayan nacido en 1963.
+		\begin{lstlisting}
+			db.pedidos.find({Fnacimiento: {$gte: new Date(1963, 1, 1), $lt: new Date(1963, 12, 1)}}).pretty()
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"_id" : ObjectId("58f6466f8acd22a8a89f4c6a"),
+				"id_cliente" : 1111,
+				"Nombre" : "Pedro Ramirez",
+				"Direccion" : "Calle Los Romeros 14",
+				"Localidad" : "Sevilla",
+				"Fnacimiento" : ISODate("1963-04-02T23:00:00Z"),
+				"Facturacion" : 5000,
+				"Pedidos" : [
+					{
+						"id_pedido" : 1,
+						"Productos" : [
+							{
+								"id_producto" : 1,
+								"Nombre" : "Pentium IV",
+								"Fabricante" : "Intel",
+								"Precio_unidad" : 390,
+								"Cantidad" : 1
+							},
+							{
+								"id_producto" : 2,
+								"Nombre" : "Tablet 8 pulgadas",
+								"Precio_unidad" : 95,
+								"Cantidad" : 1
+							}
+						]
+					},
+					{
+						"id_pedido" : 2,
+						"Productos" : [
+							{
+								"id_producto" : 77,
+								"Nombre" : "Impresora Laser",
+								"Fabricante" : "Canon",
+								"Precio_unidad" : 115,
+								"Cantidad" : 3
+							}
+						]
+					}
+				]
+			}
+		\end{lstlisting}
+
+	\item Visualiza los clientes que hayan pedido algún producto fabricado por Canon y  algún producto cuyo precio sea inferior a 15 euros.
+		\begin{lstlisting}
+			db.pedidos.find({"Pedidos.Productos.Fabricante": "Canon", "Pedidos.Productos.Precio_unidad": {$lt: 15}}).pretty()
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"_id" : ObjectId("58f6466f8acd22a8a89f4c6b"),
+				"id_cliente" : 2222,
+				"Nombre" : "Juan Gomez",
+				"Direccion" : "Perpetuo Socorro 9",
+				"Localidad" : "Salamanca",
+				"Fnacimiento" : ISODate("1960-08-16T22:00:00Z"),
+				"Facturacion" : 6500,
+				"Pedidos" : [
+					{
+						"id_pedido" : 1,
+						"Productos" : [
+							{
+								"id_producto" : 1,
+								"Nombre" : "Pentium IV",
+								"Fabricante" : "Intel",
+								"Precio_unidad" : 100,
+								"Cantidad" : 1
+							},
+							{
+								"id_producto" : 42,
+								"Nombre" : "Portatil ASM Mod. 254",
+								"Fabricante" : "Intel",
+								"Precio_unidad" : 455,
+								"Cantidad" : 2
+							},
+							{
+								"id_producto" : 27,
+								"Nombre" : "Cable USB",
+								"Precio_unidad" : 11,
+								"Cantidad" : 12
+							}
+						]
+					},
+					{
+						"id_pedido" : 2,
+						"Productos" : [
+							{
+								"id_producto" : 77,
+								"Nombre" : "Impresora Laser",
+								"Fabricante" : "Canon",
+								"Precio_unidad" : 128,
+								"Cantidad" : 3
+							},
+							{
+								"id_producto" : 42,
+								"Nombre" : "Portatil ASM Mod. 254",
+								"Fabricante" : "Intel",
+								"Precio_unidad" : 451,
+								"Cantidad" : 5
+							},
+							{
+								"id_producto" : 21,
+								"Nombre" : "Disco Duro 500GB",
+								"Precio_unidad" : 99,
+								"Cantidad" : 10
+							}
+						]
+					},
+					{
+						"id_pedido" : 3,
+						"Productos" : [
+							{
+								"id_producto" : 1,
+								"Nombre" : "Pentium IV",
+								"Fabricante" : "Intel",
+								"Precio_unidad" : 94,
+								"Cantidad" : 5
+							},
+							{
+								"id_producto" : 95,
+								"Nombre" : "SAI 5H Mod. 258",
+								"Precio_unidad" : 213,
+								"Cantidad" : 2
+							},
+							{
+								"id_producto" : 21,
+								"Precio_unidad" : 66,
+								"Nombre" : "Disco Duro 500GB",
+								"Cantidad" : 10
+							}
+						]
+					}
+				]
+			}
+		\end{lstlisting}
+
+	\item Datos personales (id\_cliente, Nombre, Direccion, Localidad y Fnacimiento) de los clientes cuyo nombre empieza por la cadena "c" (No distinguir entre mayusculas y minúsculas).
+		\begin{lstlisting}
+			db.pedidos.find({Nombre: {$regex:/^c/i}}, {_id:0, id_cliente:1, Nombre: 1, Direccion: 1, Localidad: 1, Fnacimiento: 1}).pretty()
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"id_cliente" : 3333,
+				"Nombre" : "Carlos Montes",
+				"Direccion" : "Salsipuedes 13",
+				"Localidad" : "Jaen",
+				"Fnacimiento" : ISODate("1967-11-24T23:00:00Z")
+			}
+			{
+				"id_cliente" : 4444,
+				"Nombre" : "Carmelo Coton",
+				"Direccion" : "La Luna 103",
+				"Localidad" : "Jaen",
+				"Fnacimiento" : ISODate("1969-01-05T23:00:00Z")
+			}
+			{
+				"id_cliente" : 5555,
+				"Nombre" : "Cristina Miralles",
+				"Direccion" : "San Fernando 28",
+				"Localidad" : "Granada",
+				"Fnacimiento" : ISODate("1970-07-11T23:00:00Z")
+			}
+			{
+				"id_cliente" : 6666,
+				"Nombre" : "Chema Pamundi",
+				"Direccion" : "Recogidas 54",
+				"Localidad" : "Granada",
+				"Fnacimiento" : ISODate("1969-02-03T23:00:00Z")
+			}
+		\end{lstlisting}
+
+	\item Visualiza los datos personales de los clientes (excluyendo \_id). Limita los documentos a 4.
+		\begin{lstlisting}
+			db.pedidos.find({}, {_id:0, id_cliente:1, Nombre: 1, Direccion: 1, Localidad: 1, Fnacimiento: 1}).limit(4).pretty()
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"id_cliente" : 1111,
+				"Nombre" : "Pedro Ramirez",
+				"Direccion" : "Calle Los Romeros 14",
+				"Localidad" : "Sevilla",
+				"Fnacimiento" : ISODate("1963-04-02T23:00:00Z")
+			}
+			{
+				"id_cliente" : 2222,
+				"Nombre" : "Juan Gomez",
+				"Direccion" : "Perpetuo Socorro 9",
+				"Localidad" : "Salamanca",
+				"Fnacimiento" : ISODate("1960-08-16T22:00:00Z")
+			}
+			{
+				"id_cliente" : 3333,
+				"Nombre" : "Carlos Montes",
+				"Direccion" : "Salsipuedes 13",
+				"Localidad" : "Jaen",
+				"Fnacimiento" : ISODate("1967-11-24T23:00:00Z")
+			}
+			{
+				"id_cliente" : 4444,
+				"Nombre" : "Carmelo Coton",
+				"Direccion" : "La Luna 103",
+				"Localidad" : "Jaen",
+				"Fnacimiento" : ISODate("1969-01-05T23:00:00Z")
+			}
+		\end{lstlisting}
+
+	\item Ídem anterior pero ordenando los documentos por Localidad (ascendente) e id\_cliente (descendente).
+		\begin{lstlisting}
+			db.pedidos.find({}, {_id:0, id_cliente:1, Nombre: 1, Direccion: 1, Localidad: 1, Fnacimiento: 1}).sort({Localidad: 1, id_cliente: -1}).limit(4).pretty()
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"id_cliente" : 6666,
+				"Nombre" : "Chema Pamundi",
+				"Direccion" : "Recogidas 54",
+				"Localidad" : "Granada",
+				"Fnacimiento" : ISODate("1969-02-03T23:00:00Z")
+			}
+			{
+				"id_cliente" : 5555,
+				"Nombre" : "Cristina Miralles",
+				"Direccion" : "San Fernando 28",
+				"Localidad" : "Granada",
+				"Fnacimiento" : ISODate("1970-07-11T23:00:00Z")
+			}
+			{
+				"id_cliente" : 4444,
+				"Nombre" : "Carmelo Coton",
+				"Direccion" : "La Luna 103",
+				"Localidad" : "Jaen",
+				"Fnacimiento" : ISODate("1969-01-05T23:00:00Z")
+			}
+			{
+				"id_cliente" : 3333,
+				"Nombre" : "Carlos Montes",
+				"Direccion" : "Salsipuedes 13",
+				"Localidad" : "Jaen",
+				"Fnacimiento" : ISODate("1967-11-24T23:00:00Z")
+			}
+		\end{lstlisting}
+\end{enumerate}
+
+\section{Objetivo \#2}
+
+Junto con este documento se adjunta el fichero \textit{tarea2.js} con el código JavaScript de las consultas. \\
+
+A partir de la colección pedidos utilizaremos consultas más complejas por medio de los operadores de agregación (pipeline). Las tareas a realizar en este caso obtener: \\
+
+\begin{enumerate}
+	\item Número total de clientes.
+		\begin{lstlisting}
+			db.pedidos.count()
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			7
+		\end{lstlisting}
+		
+	\item Número total de clientes de Jaén.
+		\begin{lstlisting}
+			db.pedidos.find({Localidad: "Jaen"}).count()
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			2
+		\end{lstlisting}
+		
+	\item Facturación total clientes por localidad.
+		\begin{lstlisting}
+			db.pedidos.aggregate([
+				{$group:
+					{_id: "$Localidad",
+					total: {$sum : "$Facturacion"}}
+				}
+			])
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{ "_id" : "Granada", "total" : 21500 }
+			{ "_id" : "Jaen", "total" : 20300 }
+			{ "_id" : "Salamanca", "total" : 6500 }
+			{ "_id" : "Sevilla", "total" : 7500 }
+		\end{lstlisting}
+		
+	\item Facturación media de clientes por localidad para las localidades distintas a "Jaen" con facturación media mayor de 5000. Ordenación por Localidad descendente. Eliminar el \_id y poner el nombre en mayúsculas.
+		\begin{lstlisting}
+			db.pedidos.aggregate([
+				{$match: {Localidad: {$ne: "Jaen"}}},
+				{$group:
+					{_id: "$Localidad",
+					media: {$avg : "$Facturacion"}}
+				},
+				{$match: {media: {$gt: 5000}}},
+				{$sort: {_id: -1}},
+				{$project: {_id: 0, Localidad: {$toUpper: "$_id"}, media: 1}}
+			])
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{ "media" : 6500, "Localidad" : "SALAMANCA" }
+			{ "media" : 10750, "Localidad" : "GRANADA" }
+		\end{lstlisting}
+		
+	\item Calcula la cantidad total facturada por cada cliente (uso de “unwind”).
+		\begin{lstlisting}
+			db.pedidos.aggregate([
+				{$unwind: "$Pedidos"},
+				{$unwind: "$Pedidos.Productos"},
+				{$group: 
+					{_id: {id_cliente: "$id_cliente", nombre: "$Nombre"},
+					"Total Cliente": {$sum : {$multiply: ["$Pedidos.Productos.Precio_unidad", "$Pedidos.Productos.Cantidad"]}}}
+				}
+			])
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{ "_id" : { "id_cliente" : 5555, "nombre" : "Cristina Miralles" }, "Total Cliente" : 1580 }
+			{ "_id" : { "id_cliente" : 2222, "nombre" : "Juan Gomez" }, "Total Cliente" : 6327 }
+			{ "_id" : { "id_cliente" : 1111, "nombre" : "Pedro Ramirez" }, "Total Cliente" : 830 }
+		\end{lstlisting}
+\end{enumerate}
+
+\section{Objetivo \#3}
+
+Junto con este documento se adjunta el fichero \textit{tarea3.js} con el código JavaScript de las consultas. \\
+
+Vamos a utilizar la base de datos libre GeoWorldMap de GeoBytes. Es una base de datos de países, con sus estados/regiones y ciudades importantes. Sobre esta Base de datos vamos a obtener el par de ciudades que se encuentran más cercanas en cada país, excluyendo a los EEUU. Vamos a importar en nuestra BD de MongoDB un archivo con 37245 ciudades del mundo que está en formato csv (/tmp/mongo/Cities.csv). \\
+
+Las tareas a realizar en este caso son las siguientes: \\
+
+\begin{enumerate}
+	\item Encontrar las ciudades más cercanas sobre la colección recién creada mediante un enfoque MapReduce conforme a los pasos que se ilustran en el tutorial práctico.
+		\begin{lstlisting}
+			var map = function() {
+				var key = this.CountryID;
+				var value = {data: [{city: this.City, lat: this.Latitude, lng: this.Longitude}]};
+				emit(key, value);
+			};
+
+			var reduce = function(key, values) {
+				var reduced = {data: []};
+				for(var i in values) {
+					var inter = values[i];
+					for(var j in inter.data)
+						reduced.data.push(inter.data[j]);
+				}
+				return reduced;
+			};
+
+			var finalize = function(key, reduced) {
+				if(reduced.data.length == 1){
+					return {CountryID: key, message: "Este pais solo tiene una ciudad"};
+				}
+				var min = 999999999999;
+				var city1 = {name: ""};
+				var city2 = {name: ""};
+				for(var i=0; i<reduced.data.length; i++){
+					for(var j=i+1; j<reduced.data.length; j++){
+						var x1 = reduced.data[i].lat;
+						var y1 = reduced.data[i].lng;
+						var x2 = reduced.data[j].lat;
+						var y2 = reduced.data[j].lng;
+						var d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1);
+						if(d < min){
+							city1.name = reduced.data[i].city;
+							city2.name = reduced.data[j].city;
+							min = d;
+						}
+					}
+				}
+				return {CountryID: key, city1: city1.name, city2: city2.name, distance: Math.sqrt(min)};
+			};
+
+			db.cities.mapReduce(map, reduce, {finalize: finalize, query: { CountryID: { $ne: 254 } }, out: { merge: "near_cities" }});
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+			"result" : "near_cities",
+			"timeMillis" : 903,
+			"counts" : {
+				"input" : 7042,
+				"emit" : 7042,
+				"reduce" : 260,
+				"output" : 215
+			},
+			"ok" : 1
+		}
+		\end{lstlisting}
+		
+	\item ¿Cómo podríamos obtener la ciudades más distantes en cada país?
+		Cambiamos la función finalize para que busque la distancia máxima en lugar de la mínima.
+		\begin{lstlisting}
+			var finalize = function(key, reduced) {
+				if(reduced.data.length == 1){
+					return {CountryID: key, message: "Este pais solo tiene una ciudad"};
+				}
+				var max = -1;
+				var city1 = {name: ""};
+				var city2 = {name: ""};
+				for(var i=0; i<reduced.data.length; i++){
+					for(var j=i+1; j<reduced.data.length; j++){
+						var x1 = reduced.data[i].lat;
+						var y1 = reduced.data[i].lng;
+						var x2 = reduced.data[j].lat;
+						var y2 = reduced.data[j].lng;
+						var d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1);
+						if(d > max){
+							city1.name = reduced.data[i].city;
+							city2.name = reduced.data[j].city;
+							max = d;
+						}
+					}
+				}
+				return {CountryID: key, city1: city1.name, city2: city2.name, distance: Math.sqrt(max)};
+			}
+
+			db.cities.mapReduce(map, reduce, {finalize: finalize, query: { CountryID: { $ne: 254 } }, out: { merge: "far_cities" }});
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"result" : "far_cities",
+				"timeMillis" : 946,
+				"counts" : {
+					"input" : 7042,
+					"emit" : 7042,
+					"reduce" : 260,
+					"output" : 214
+				},
+				"ok" : 1
+			}
+		\end{lstlisting}
+		
+	\item ¿Qué ocurre si en un país hay dos parejas de ciudades que están a la misma distancia mínima? ¿Cómo harías para que aparecieran todas?
+		De nuevo, solo modificamos la función finalize para que añada las ciudades con la misma distancia que la mínima a una lista.
+		\begin{lstlisting}
+			var finalize = function(key, reduced) {
+				if(reduced.data.length == 1){
+					return {CountryID: key, message: "Este pais solo tiene una ciudad"};
+				}
+				var min = 999999999999;
+				var cities = [];
+				for(var i=0; i<reduced.data.length; i++){
+					for(var j=i+1; j<reduced.data.length; j++){
+						var x1 = reduced.data[i].lat;
+						var y1 = reduced.data[i].lng;
+						var x2 = reduced.data[j].lat;
+						var y2 = reduced.data[j].lng;
+						var d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1);
+						if(d < min){
+							min = d;
+							cities = [];
+							cities.push({city1: reduced.data[i].city, city2: reduced.data[j].city})
+						}
+						else if(d == min){
+							cities.push({city1: reduced.data[i].city, city2: reduced.data[j].city})
+						}
+					}
+				}
+				return {CountryID: key, cities: cities, distance: Math.sqrt(min)};
+			}
+
+			db.cities.mapReduce(map, reduce, {finalize: finalize, query: { CountryID: { $ne: 254 } }, out: { merge: "near_cities2" }});
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"result" : "near_cities2",
+				"timeMillis" : 867,
+				"counts" : {
+					"input" : 7042,
+					"emit" : 7042,
+					"reduce" : 260,
+					"output" : 214
+				},
+				"ok" : 1
+			}
+		\end{lstlisting}
+		
+	\item ¿Cómo podríamos obtener adicionalmente la cantidad de parejas de ciudades evaluadas para cada país consultado?
+		Podemos hacerlo añadiendo un contador en la función finalize.
+		\begin{lstlisting}
+			var finalize = function(key, reduced) {
+				if(reduced.data.length == 1){
+					return {CountryID: key, message: "Este pais solo tiene una ciudad"};
+				}
+				var max = -1;
+				var city1 = {name: ""};
+				var city2 = {name: ""};
+				var count = 0;
+				for(var i=0; i<reduced.data.length; i++){
+					for(var j=i+1; j<reduced.data.length; j++){
+						var x1 = reduced.data[i].lat;
+						var y1 = reduced.data[i].lng;
+						var x2 = reduced.data[j].lat;
+						var y2 = reduced.data[j].lng;
+						var d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1);
+						if(d > max){
+							city1.name = reduced.data[i].city;
+							city2.name = reduced.data[j].city;
+							max = d;
+						}
+						count = count + 1;
+					}
+				}
+				return {CountryID: key, city1: city1.name, city2: city2.name, distance: Math.sqrt(max), count: count};
+			}
+
+			db.cities.mapReduce(map, reduce, {finalize: finalize, query: { CountryID: { $ne: 254 } }, out: { merge: "near_cities_count" }});
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"result" : "near_cities_count",
+				"timeMillis" : 1121,
+				"counts" : {
+					"input" : 7042,
+					"emit" : 7042,
+					"reduce" : 260,
+					"output" : 214
+				},
+				"ok" : 1
+			}
+		\end{lstlisting}
+		
+	\item ¿Cómo podríamos la distancia media entre las ciudades de cada país?
+		La función map y reduce serían igual que las anteriores y en la función finalize calculamos la distancia media dividiendo la suma de todas las distancias entre el número de parejas de ciudades evaluadas.
+		\begin{lstlisting}
+			var finalize = function(key, reduced) {
+				if(reduced.data.length == 1){
+					return {CountryID: key, message: "Este pais solo tiene una ciudad"};
+				}
+				var suma = 0;
+				var count = 0;
+				for(var i=0; i<reduced.data.length; i++){
+					for(var j=i+1; j<reduced.data.length; j++){
+						var x1 = reduced.data[i].lat;
+						var y1 = reduced.data[i].lng;
+						var x2 = reduced.data[j].lat;
+						var y2 = reduced.data[j].lng;
+						var d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1);
+						suma = suma + Math.sqrt(d);
+						count = count + 1;
+					}
+				}
+				return {CountryID: key, distance_mean: suma/count};
+			}
+			
+			db.cities.mapReduce(map, reduce, {finalize: finalize, query: { CountryID: { $ne: 254 } }, out: { merge: "mean_distance_cities" }});
+		\end{lstlisting}
+		\textbf{Salida:}
+		\begin{lstlisting}
+			{
+				"result" : "mean_distance_cities",
+				"timeMillis" : 980,
+				"counts" : {
+					"input" : 7042,
+					"emit" : 7042,
+					"reduce" : 260,
+					"output" : 214
+				},
+				"ok" : 1
+			}
+		\end{lstlisting}
+		
+	\item ¿Mejoraría el rendimiento si creamos un índice? ¿Sobre que campo? Comprobadlo.
+		Se ha creado un índice sobre el campo CountryID y se ha estudiado su eficiencia.
+		\begin{lstlisting}
+			db.cities.ensureIndex({CountryID: 1});
+		\end{lstlisting}
+		\textbf{Salida sin índice:}
+		\begin{lstlisting}
+			{
+				"result" : "near_cities",
+				"timeMillis" : 942,
+				"counts" : {
+					"input" : 7042,
+					"emit" : 7042,
+					"reduce" : 260,
+					"output" : 215
+				},
+				"ok" : 1
+			}
+		\end{lstlisting}
+		\textbf{Salida con índice:}
+		\begin{lstlisting}
+			{
+				"result" : "near_cities",
+				"timeMillis" : 755,
+				"counts" : {
+					"input" : 7042,
+					"emit" : 7042,
+					"reduce" : 260,
+					"output" : 215
+				},
+				"ok" : 1
+			}
+		\end{lstlisting}
+		La mejora en tiempo de ejecución se puede ver en ambas salidas. Antes: 942 ms, ahora: 755.
+\end{enumerate}
+
+
+\end{document}

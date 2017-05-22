@@ -1,0 +1,253 @@
+\input{estilo.tex}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=C,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+}
+
+\usepackage[table,xcdraw]{xcolor}
+
+
+\newpage         
+
+
+%----------------------------------------------------------------------------------------
+%	INDICE
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+	
+\setcounter{page}{0}
+
+\input{portada}
+
+\thispagestyle{empty}
+
+\newpage %inserta un salto de página
+
+\tableofcontents % para generar el índice de contenidos
+
+%\listoffigures
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENTO
+%----------------------------------------------------------------------------------------
+
+\section{Introducción}
+
+El objetivo de esta práctica es realizar programas escalables para mejorar la eficiencia en entornos Big Data. Para ello, se hará uso del entorno que se ha convertido en un estándar de facto como es Hadoop, utilizando HDFS como sistema de ficheros distribuido y Hadoop-MapReduce como mecanismo de ejecución. \\
+
+Para ello el alumno deberá realizar las tareas que se describen a continuación y entregar documentación describiendo con el mayor detalle posible todas las actividades realizadas. \\
+
+Junto con este documento se adjunta el código fuente Java asociado con las diferentes tareas MapReduce. \\
+
+
+\section{Tareas a realizar}
+
+Utilizando como base el conjunto de datos ECBDL14 situado en la carpeta \textit{/tmp/BDCC/datasets/ECBDL14/ECBDL14\_10tst.data} se pide obtener los siguientes datos estadísticos descriptivos.
+
+\subsection{Mínimo}
+
+Calcular el valor mínimo de la variable (columna) 5. El código asociado a esta tarea se encuentra en el directoro \textit{/tareas/min/}. \\
+
+Salida tras la ejecución del MapReduce:
+
+\begin{lstlisting}
+min -11
+\end{lstlisting}
+
+\subsection{Máximo}
+
+Calcular el valor máximo de la variable (columna) 5. El código asociado a esta tarea se encuentra en el directoro \textit{/tareas/max/}. \\
+
+Salida tras la ejecución del MapReduce:
+
+\begin{lstlisting}
+max 9.0
+\end{lstlisting}
+
+
+\subsection{Máximo y mínimo de una variable}
+
+Calcular al mismo tiempo los valores máximo y mínimo de la variable (columna) 5. El código asociado a esta tarea se encuentra en el directoro \textit{/tareas/maxmin/}. \\
+
+Salida tras la ejecución del MapReduce:
+
+\begin{lstlisting}
+min	-11.0
+max	9.0
+\end{lstlisting}
+
+
+\subsection{Máximo y mínimo de todas las variables}
+
+Calcular al mismo tiempo los valores máximo y mínimo de todas las variables. El código asociado a esta tarea se encuentra en el directoro \textit{/tareas/maxmin2/}. \\
+
+Salida tras la ejecución del MapReduce:
+
+\begin{lstlisting}
+min 1	0.0
+max 1	0.154
+min 2	-12.0
+max 2	10.0
+min 3	-11.0
+max 3	8.0
+min 4	-12.0
+max 4	9.0
+min 5	-11.0
+max 5	9.0
+min 6	-13.0
+max 6	9.0
+min 7	-12.0
+max 7	9.0
+min 8	-12.0
+max 8	7.0
+min 9	-13.0
+max 9	10.0
+min 0	0.094
+max 0	0.768
+\end{lstlisting}
+
+
+\subsection{Media}
+
+Calcular la media de la variable 5. El código asociado a esta tarea se encuentra en el directoro \textit{/tareas/average/}. \\
+
+Salida tras la ejecución del MapReduce:
+
+\begin{lstlisting}
+average	-1.282261707288373
+\end{lstlisting}
+
+
+\subsection{Media de todas las variables}
+
+Calcular la media de todas las variables. El código asociado a esta tarea se encuentra en el directoro \textit{/tareas/average2/}. \\
+
+Salida tras la ejecución del MapReduce:
+
+\begin{lstlisting}
+average 1	0.05212776590932363
+average 2	-2.188240380935686
+average 3	-1.408876789776933
+average 4	-1.7528724942777865
+average 5	-1.282261707288373
+average 6	-2.293434905140485
+average 7	-1.5875789403216172
+average 8	-1.7390052924221087
+average 9	-1.6989002790625127
+average 0	0.25496195991794673
+\end{lstlisting}
+
+
+\subsection{Baleanceo de clase}
+
+Comprobar si el conjunto de datos ECBDL es balanceado o no balanceado, es decir, que el ratio entre las clases sea menor o mayor que 1.5 respectivamente. El código asociado a esta tarea se encuentra en el directoro \textit{/tareas/balanced/}. \\
+
+Salida tras la ejecución del MapReduce:
+
+\begin{lstlisting}
+balanced	58.582560602010815
+\end{lstlisting}
+
+Se trata de un conjunto de datos con clases no balanceadas ya que el valor que resulta tras la ejecución es mucho mayor de 1.5. \\
+
+
+\subsection{Correlación}
+
+Calcular el coeficiente de correlación entre todas las parejas de variables. El código asociado a esta tarea se encuentra en el directoro \textit{/tareas/correlation/}. \\
+
+Salida tras la ejecución del MapReduce:
+
+\begin{lstlisting}
+correlationcorrelation 0 with 1	-0.13589916869250343
+correlation 1 with 2	-0.003036453929943773
+correlation 2 with 3	-0.01726247486762999
+correlation 3 with 4	0.015754379166559307
+correlation 4 with 5	0.07125079800784533
+correlation 5 with 6	0.03200113594875155
+correlation 6 with 7	0.11488805268078417
+correlation 7 with 8	-0.3292179447994215
+correlation 8 with 9	0.1084960047958963
+correlation 0 with 2	0.09143593112372793
+correlation 1 with 3	0.009438349445267866
+correlation 2 with 4	0.018191261366109063
+correlation 3 with 5	0.016128930425374947
+correlation 4 with 6	0.018264386288745375
+correlation 5 with 7	0.03297998768398484
+correlation 6 with 8	0.07783431570283235
+correlation 7 with 9	0.08936167755929571
+correlation 0 with 3	0.07005931837948814
+correlation 1 with 4	0.058856701856431555
+correlation 2 with 5	0.024182999250758484
+correlation 3 with 6	0.025952003813569456
+correlation 4 with 7	0.01984291578033614
+correlation 5 with 8	0.015183324110128226
+correlation 6 with 9	0.1071360896407867
+correlation 0 with 4	0.04742917824074476
+correlation 1 with 5	0.014659977635554567
+correlation 2 with 6	0.041153841377462724
+correlation 3 with 7	0.01879122854336587
+correlation 4 with 8	0.01224584385595619
+correlation 5 with 9	0.023068393377281653
+correlation 0 with 5	0.12916572716966565
+correlation 1 with 6	-0.03183255331046186
+correlation 2 with 7	0.03814283037771738
+correlation 3 with 8	0.016130402799924542
+correlation 4 with 9	0.014041854998880898
+correlation 0 with 6	0.19252517591425605
+correlation 1 with 7	-1.75036573244801E-5
+correlation 2 with 8	0.025077384911599235
+correlation 3 with 9	0.01817123896585364
+correlation 0 with 7	0.17921266564263214
+correlation 1 with 8	0.015894103489103417
+correlation 2 with 9	0.027549270387458427
+correlation 0 with 8	0.06624560108648203
+correlation 1 with 9	-0.016730623449595243
+correlation 0 with 9	0.13827089964433972
+\end{lstlisting}
+
+\subsection{Otras tareas}
+
+Además de las tareas descritas anteriormente se han realizado las siguientes tareas:
+
+\begin{enumerate}
+	\item Parametrizar la columna sobre la que se quiere calcular el estadístico. Esta tarea se ha realizado sobre el código del cálculo del mínimo. El código fuente se encuentra disponible en el directorio \textit{/tareas/min\_parametrizado/}.
+	\item Combinar el cálculo de todos los estadísticos en una única función. Se han combinado las operaciones de cálculo del mínimo, máximo y media. El código fuente se encuentra disponible en el directorio \textit{/tareas/min\_max\_average/}. 
+	\item Repetir el proceso sobre un conjunto de mayor volumen y comprobar si hay diferencias de tiempo. Se ha calculado el máximo de una variable para los datasets de ECBDL14 y HiggsImg10 y los resultados son los siguientes:
+\begin{lstlisting}
+ECBDL14		19s
+HiggsImg10  16s
+\end{lstlisting}
+\end{enumerate}
+
+\end{document}

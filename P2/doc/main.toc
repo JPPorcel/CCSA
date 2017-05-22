@@ -1,9 +1,0 @@
-\select@language {spanish}
-\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{2}{section.1}
-\contentsline {section}{\numberline {2}Configuraci\IeC {\'o}n de los contenedores docker}{2}{section.2}
-\contentsline {subsection}{\numberline {2.1}SGBD}{4}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Aplicaci\IeC {\'o}n Web}{4}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Servidor Web}{5}{subsection.2.3}
-\contentsline {section}{\numberline {3}Aplicaci\IeC {\'o}n web}{7}{section.3}
-\contentsline {section}{\numberline {4}OwnCloud}{7}{section.4}
-\contentsline {section}{\numberline {5}Conclusiones}{9}{section.5}
